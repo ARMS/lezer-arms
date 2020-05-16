@@ -1,0 +1,15 @@
+# Template with Interpolated Names
+
+a = Model { a = b }
+
+template X(a, b, c, d) {
+    x = a ? b / 2 : -b / 2
+    `{name}` = Mesh { a = b }
+}
+
+==>
+
+Name,Model,Name,Name
+template,Name,Name,Name,Name,Name
+Name,Name,Name,Number,Name,Number
+InterpName,Mesh,Name,Name

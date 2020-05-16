@@ -1,0 +1,105 @@
+# Minimal
+
+name = Model { a = 1 }
+x = 5
+
+==>
+
+Name,Model,Name,Number
+Name,Number
+
+
+
+# Numbers
+
+name = Model { a = 1 }
+x = 101
+x = 3.14
+x = 3.14e+1
+x = 1e+3
+
+==>
+
+Name,Model,Name,Number
+Name,Number
+Name,Number
+Name,Number
+Name,Number
+
+
+
+# Identifiers
+
+name = Model { a = 1 }
+x = theVar
+x = theVar2
+x = the_var
+
+==>
+
+Name,Model,Name,Number
+Name,Name
+Name,Name
+Name,Name
+
+
+
+# Arrays
+
+name = Model { a = 1 }
+x = [ 1, 2, 3 ]
+x = [ 1, 2, 3, 4 ]
+x = [ item1, item2, 1*2 ]
+x = [ a, b, c, d ]
+
+==>
+
+Name,Model,Name,Number
+Name,Number,Number,Number
+Name,Number,Number,Number,Number
+Name,Name,Name,Number,Number
+Name,Name,Name,Name,Name
+
+
+
+# Ternary Operator
+
+name = Model { a = 1 }
+x = condition ? case1 : case2
+x = 1 ? 2 : 3
+
+==>
+
+Name,Model,Name,Number
+Name,Name,Name,Name
+Name,Number,Number,Number
+
+
+
+# Associativity and Precedence
+
+name = Model { a = 1 }
+x = 1 * 2 / 3 + 4 ^ 5 * 6 - 7
+y = a + (5 ? 1 : 3) / b
+
+==>
+
+Name,Model,Name,Number
+Name,Number,Number,Number,Number,Number,Number,Number
+Name,Name,Number,Number,Number,Name
+
+
+
+# Interpolated Name
+
+name = Model { a = 1 }
+`x` = 5
+`x` = Cuboid { a = b }
+template X() { `x` = 5 }
+
+==>
+
+Name,Model,Name,Number
+InterpName,Number
+InterpName,Cuboid,Name,Name
+template,Name,InterpName,Number

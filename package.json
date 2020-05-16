@@ -1,0 +1,22 @@
+{
+  "name": "lezer-arms",
+  "version": "1.0.1",
+  "description": "lezer-based ARMS grammar",
+  "main": "index.js",
+  "type": "module",
+  "author": "Anthony J. Clark",
+  "license": "MIT",
+  "devDependencies": {
+    "lezer-generator": "^0.8.5",
+    "mocha": "^7.1.2"
+  },
+  "dependencies": {
+    "lezer": "^0.8.5"
+  },
+  "scripts": {
+    "build": "lezer-generator src/arms.grammar -o dist/parser",
+    "build-debug": "lezer-generator src/arms.grammar --names -o dist/parser",
+    "prepare": "npm run build",
+    "test": "mocha test/test-*.js"
+  }
+}

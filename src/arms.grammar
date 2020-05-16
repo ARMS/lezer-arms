@@ -1,0 +1,86 @@
+//https://github.com/lezer-parser/javascript/blob/master/src/javascript.grammar
+@precedence {
+    pre @right,
+    pow @right,
+    mul @left,
+    add @left,
+    trn @right
+}
+
+@top { model }
+model { ModelName "=" kw<"Model"> properties statement+ }
+
+properties { "{" property+ "}" }
+property { PropertyName "=" expression }
+// TODO: colors ('#' Hex Hex Hex Hex Hex Hex; Hex [0-9A-F])
+
+block { "{" statement+ "}" }
+
+// TODO: for if-else
+statement { block | variable | template | invocation }
+
+variable { (VariableDefinition | InterpName) "=" (expression | primitive) }
+template { kw<"template"> TemplateName "(" commaSeparated<ParameterName> ")" block }
+invocation { InvokeName "(" commaSeparated<expression> ")" }
+
+// TODO: Bools, conditionals
+// TODO: Make things Op<> (look at js example)
+expression {
+	Number |
+    kw<"true"> | kw<"false"> | kw<"none"> |
+    kw<"mm"> | kw<"cm"> | kw<"m"> | kw<"in"> | kw<"ft"> |
+    kw<"kg"> | kw<"g"> |
+    kw<"deg"> | kw<"rad"> |
+    kw<"xaxis"> | kw<"yaxis"> | kw<"zaxis"> |
+    kw<"identity"> |
+    kw<"relative"> | kw<"absolute"> |
+    VariableName |
+    InterpName   |
+    "[" expression "," expression "," expression "]" |
+    "[" expression "," expression "," expression "," expression "]" |
+    "(" expression ")" |
+    !pre "-" expression |
+    expression !pow "^" expression |
+    expression !mul ("*" | "/" | "//" ) expression |
+    expression !add ("+" | "-" ) expression |
+    expression !trn "?" expression ":" expression
+}
+
+primitive { prims properties }
+prims {
+    kw<"Cuboid">    |
+    kw<"Ellipsoid"> |
+    kw<"Cylinder">  |
+    kw<"Mesh">      |
+    kw<"Revolute">
+}
+
+@skip { space | Comment }
+
+// Comma separate list
+commaSeparated<value> { "" | value ("," value)* }
+
+// Keywords
+kw<term> { @specialize[name={term}]<name, term> }
+//kw<term> { @specialize<name, term> }
+
+// Different types of names
+ModelName { name }
+PropertyName { name }
+VariableDefinition { name }
+VariableName { name }
+TemplateName { name }
+ParameterName { name }
+InvokeName { name }
+
+@tokens {
+    // TODO: Some names start with caps
+    name { $[a-zA-Z] $[a-zA-Z0-9_]* }
+    InterpName { "`" $[a-zA-Z{ ] $[a-zA-Z0-9_{} ]* "`" }
+
+    Number { (std.digit+ ("." std.digit*)? | "." std.digit+) (("e" | "E") ("+" | "-")? std.digit+)? }
+
+    space { std.whitespace+ }
+
+    Comment { "#" ![\r\n]* }
+}

@@ -1,0 +1,48 @@
+# Minimal
+
+name = Model { length = CENTIMETERS }
+name = Cuboid {
+    size = [a, b, c]
+}
+
+==>
+
+Name,Model,Name,Name
+Name,Cuboid
+Name,Name,Name,Name
+
+
+
+# Multiple Attributes
+
+rover = Model {
+    length = CENTIMETERS
+    mass = KILOGRAMS
+    angle = DEGREES
+    up_axis = YAXIS
+}
+
+wheel_base = 10
+track_width = 8
+chassis_height = 4
+
+chassis = Cuboid {
+    size = [wheel_base, chassis_height, track_width]
+    position = [0, wheel_radius, 0]
+    quaternion = IDENTITY
+    positioning = ABSOLUTE
+    parent = NONE
+}
+
+==>
+
+Name,Model,Name,Name,Name,Name,Name,Name,Name,Name
+Name,Number
+Name,Number
+Name,Number
+Name,Cuboid
+Name,Name,Name,Name
+Name,Number,Name,Number
+Name,Name
+Name,Name
+Name,Name
